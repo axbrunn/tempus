@@ -4,17 +4,27 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/axbrunn/tempus/internal/store"
+	"github.com/axbrunn/tempus/ui"
 	"github.com/spf13/cobra"
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "hugo",
-	Short: "Hugo is a very fast static site generator",
-	Long: `A Fast and Flexible Static Site Generator built with
-                love by spf13 and friends in Go.
-                Complete documentation is available at https://gohugo.io/documentation/`,
+	Use:   "tempus",
+	Short: "Comptime registratie TUI",
+	Long:  "Een TUI app voor het bijhouden van vrijedagen en overuren.",
 	Run: func(cmd *cobra.Command, args []string) {
-		// Do Stuff Here
+		path, err := store.DataPath()
+		if err != nil {
+			fmt.Println("Not able to found directory:", err)
+			os.Exit(1)
+		}
+		s, err := store.Load(path)
+		if err != nil {
+			fmt.Println("Not able to load json:", err)
+			os.Exit(1)
+		}
+		ui.Start(s)
 	},
 }
 
