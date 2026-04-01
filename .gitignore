@@ -33,3 +33,5 @@ desktop.ini
 # Temp bestanden
 *.tmp
 *.bak
+# Added by goreleaser init:
+dist/
