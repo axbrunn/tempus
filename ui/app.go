@@ -1,6 +1,9 @@
 package ui
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/axbrunn/tempus/internal/models"
 	"github.com/axbrunn/tempus/internal/store"
 	"github.com/charmbracelet/bubbles/textinput"
@@ -8,9 +11,11 @@ import (
 )
 
 type page int
+type storesLoadedMsg []store.Store
 
 const (
-	pageMenu page = iota
+	pageFilePicker page = iota
+	pageMenu
 	pageOverview
 	pageWithdrawal
 	pageAccrual
@@ -22,6 +27,10 @@ type model struct {
 	choices         []string
 	cursor          int
 	store           store.Store
+	stores          []store.Store
+	inputName       textinput.Model
+	creatingNew     bool
+	files           []string
 	inputHr         textinput.Model
 	inputDesc       textinput.Model
 	activField      int
@@ -30,18 +39,26 @@ type model struct {
 	err             string
 }
 
-func initialModel(s store.Store) model {
+func loadStoresCmd() tea.Msg {
+	stores, _ := store.ListFiles()
+	return storesLoadedMsg(stores)
+}
+
+func initialModel(stores []store.Store) model {
 	hr, desc := initEntry()
+	name := initFilePicker()
 	return model{
-		page: pageMenu,
+		page: pageFilePicker,
 		choices: []string{
 			"Overzicht weergeven",
 			"Uren opnemen",
 			"Uren opbouwen",
 			"Rapport genereren",
+			"Bestand kiezen",
 			"Sluiten",
 		},
-		store:     s,
+		stores:    stores,
+		inputName: name,
 		inputHr:   hr,
 		inputDesc: desc,
 	}
@@ -52,7 +69,14 @@ func (m model) Init() tea.Cmd {
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	switch msg := msg.(type) {
+	case storesLoadedMsg:
+		m.stores = []store.Store(msg)
+		return m, nil
+	}
 	switch m.page {
+	case pageFilePicker:
+		return m.updateFilePicker(msg)
 	case pageMenu:
 		return m.updateMenu(msg)
 	case pageOverview:
@@ -67,6 +91,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m model) View() string {
 	switch m.page {
+	case pageFilePicker:
+		return m.viewFilePicker()
 	case pageMenu:
 		return m.viewMenu()
 	case pageOverview:
@@ -98,12 +124,21 @@ func handleChoice(m model) (tea.Model, tea.Cmd) {
 		}
 		m.page = pageRapport
 	case 4:
+		m.cursor = 0
+		m.page = pageFilePicker
+	case 5:
 		return m, tea.Quit
 	}
 	return m, nil
 }
 
-func Start(s store.Store) {
-	p := tea.NewProgram(initialModel(s))
+func Start() {
+	stores, err := store.ListFiles()
+	if err != nil {
+		fmt.Println("Failed to load files:", err)
+		os.Exit(1)
+	}
+
+	p := tea.NewProgram(initialModel(stores))
 	p.Run()
 }

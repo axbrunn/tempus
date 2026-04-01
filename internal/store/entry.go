@@ -15,12 +15,59 @@ type Store struct {
 	Entries []models.Entry `json:"entries"`
 }
 
-func DataPath() (string, error) {
+func ListFiles() ([]Store, error) {
 	home, err := os.UserHomeDir()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return filepath.Join(home, ".comptime_data.json"), nil
+
+	dir := filepath.Join(home, "tempus")
+
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		return nil, err
+	}
+
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return nil, err
+	}
+
+	var stores []Store
+	for _, e := range entries {
+		if !e.IsDir() && filepath.Ext(e.Name()) == ".json" {
+			s, err := Load(filepath.Join(dir, e.Name()))
+			if err != nil {
+				continue
+			}
+			stores = append(stores, s)
+		}
+	}
+
+	return stores, nil
+}
+
+func CreateFile(name string) (Store, error) {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return Store{}, err
+	}
+
+	path := filepath.Join(home, "tempus", name+".json")
+
+	if _, err := os.Stat(path); err == nil {
+		return Store{}, fmt.Errorf("File '%s' allready exists", name)
+	}
+
+	s := Store{
+		Path:    path,
+		Entries: []models.Entry{},
+	}
+
+	if err := s.Save(); err != nil {
+		return Store{}, nil
+	}
+
+	return s, nil
 }
 
 func Load(path string) (Store, error) {
