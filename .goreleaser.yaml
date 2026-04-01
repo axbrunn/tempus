@@ -1,0 +1,21 @@
+project_name: tempus
+
+builds:
+    - env:
+          - CGO_ENABLED=0
+      goos:
+          - windows
+          - darwin
+          - linux
+      goarch:
+          - amd64
+          - arm64
+
+archives:
+    - format: tar.gz
+      format_overrides:
+          - goos: windows
+            format: zip
+
+checksum:
+    name_template: "checksums.txt"
