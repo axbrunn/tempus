@@ -22,12 +22,12 @@ Download de laatste binary voor jouw platform op de [releases pagina](https://gi
 
 | Platform | Bestand |
 |----------|---------|
-| Windows | `tempus-windows-amd64.exe` |
-| macOS (Intel) | `tempus-darwin-amd64` |
-| macOS (Apple Silicon) | `tempus-darwin-arm64` |
-| Linux | `tempus-linux-amd64` |
+| Windows | `tempus_Windows_x86_64.zip` |
+| macOS (Intel) | `tempus_Darwin_x86_64.tar.gz` |
+| macOS (Apple Silicon) | `tempus_Darwin_arm64.tar.gz` |
+| Linux | `tempus_Linux_x86_64.tar.gz` |
 
-Zet het bestand in een map die in je `PATH` staat, bijvoorbeeld `/usr/local/bin` op Mac/Linux.
+Pak het archief uit en zet het `tempus` bestand in een map die in je `PATH` staat, bijvoorbeeld `/usr/local/bin` op Mac/Linux. Op Windows kun je het `.exe` bestand direct uitvoeren.
 
 ### Vanuit broncode
 
