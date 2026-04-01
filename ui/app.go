@@ -30,7 +30,6 @@ type model struct {
 	stores          []store.Store
 	inputName       textinput.Model
 	creatingNew     bool
-	files           []string
 	inputHr         textinput.Model
 	inputDesc       textinput.Model
 	activField      int
