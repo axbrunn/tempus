@@ -6,19 +6,36 @@ Een terminal-gebaseerde TUI app voor het bijhouden van vrije dagen en overuren, 
 
 ## Installatie
 
-### Vereisten
+### Via Go (aanbevolen)
 
-- [Go](https://golang.org/) 1.21 of hoger
+Vereist [Go](https://golang.org/) 1.21 of hoger.
 
-### Installeren
+```bash
+go install github.com/axbrunn/tempus@latest
+```
+
+Na installatie is `tempus` beschikbaar als commando in je terminal.
+
+### Via release (geen Go vereist)
+
+Download de laatste binary voor jouw platform op de [releases pagina](https://github.com/axbrunn/tempus/releases).
+
+| Platform | Bestand |
+|----------|---------|
+| Windows | `tempus-windows-amd64.exe` |
+| macOS (Intel) | `tempus-darwin-amd64` |
+| macOS (Apple Silicon) | `tempus-darwin-arm64` |
+| Linux | `tempus-linux-amd64` |
+
+Zet het bestand in een map die in je `PATH` staat, bijvoorbeeld `/usr/local/bin` op Mac/Linux.
+
+### Vanuit broncode
 
 ```bash
 git clone https://github.com/axbrunn/tempus.git
 cd tempus
 go install .
 ```
-
-Na installatie is `tempus` beschikbaar als commando in je terminal.
 
 ---
 
