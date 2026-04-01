@@ -51,7 +51,7 @@ func (m model) viewMenu() string {
 		s.WriteString(cursor + style.Render(choice) + "\n")
 	}
 
-	s.WriteString("\n" + subtleStyle.Render("↑/↓ navigeren • enter selecteren"))
+	s.WriteString("\n" + subtleStyle.Render("↑/↓ navigeren • enter selecteren • q sluiten"))
 
 	return appStyle.Render(s.String())
 }

@@ -25,7 +25,6 @@ func (m model) viewOverview() string {
 
 	balance := m.store.CalculateBalance()
 
-	// Tabel rijen opbouwen
 	t := table.New().
 		Border(lipgloss.NormalBorder()).
 		BorderStyle(lipgloss.NewStyle().Foreground(purple)).
