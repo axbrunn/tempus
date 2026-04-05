@@ -29,6 +29,17 @@ Download de laatste binary voor jouw platform op de [releases pagina](https://gi
 
 Pak het archief uit en zet het `tempus` bestand in een map die in je `PATH` staat, bijvoorbeeld `/usr/local/bin` op Mac/Linux. Op Windows kun je het `.exe` bestand direct uitvoeren.
 
+#### Windows
+Maak een map aan, bijv. `C:\Tools`
+Zet `tempus.exe` daarin
+Voeg die map toe aan je `PATH`:
+
+Zoek op "omgevingsvariabelen" in het startmenu
+Klik op "Omgevingsvariabelen bewerken voor uw account"
+Selecteer Path → klik Bewerken
+Klik Nieuw en vul `C:\Tools` in.
+Open een nieuwe terminal en typ `tempus`
+
 ### Vanuit broncode
 
 ```bash
