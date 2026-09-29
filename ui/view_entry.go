@@ -72,8 +72,9 @@ func (m model) saveEntry() (tea.Model, tea.Cmd) {
 		return m, nil
 	}
 
-	entry := models.NewEntry(hours, m.inputDesc.Value(), m.entryType)
+	entry := models.NewEntry(hours, m.inputDesc.Value(), m.entryType, 0)
 	m.store.Entries = append(m.store.Entries, entry)
+	m.store.CalcBalancePerRow()
 	m.store.Save()
 
 	// reset

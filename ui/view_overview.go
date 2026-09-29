@@ -28,7 +28,7 @@ func (m model) viewOverview() string {
 	t := table.New().
 		Border(lipgloss.NormalBorder()).
 		BorderStyle(lipgloss.NewStyle().Foreground(purple)).
-		Headers("Datum", "Omschrijving", "Type", "Uren").
+		Headers("Datum", "Omschrijving", "Type", "Uren", "Balance").
 		StyleFunc(func(row, col int) lipgloss.Style {
 			switch {
 			case row == table.HeaderRow:
@@ -46,6 +46,7 @@ func (m model) viewOverview() string {
 			e.Description,
 			string(e.Type),
 			fmt.Sprintf("%.2f", e.Hours),
+			fmt.Sprintf("%.2f", e.Balance),
 		)
 	}
 

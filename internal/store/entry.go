@@ -94,6 +94,25 @@ func (s *Store) Save() error {
 	return os.Rename(tmp, s.Path)
 }
 
+func (s *Store) CalcBalancePerRow() float64 {
+	var balance float64
+
+	for i := range s.Entries {
+		entry := &s.Entries[i]
+
+		switch entry.Type {
+		case models.Accrual:
+			balance += entry.Hours
+		case models.Withdrawal:
+			balance -= entry.Hours
+		}
+
+		entry.Balance = balance
+	}
+
+	return balance
+}
+
 func (s *Store) CalculateBalance() float64 {
 	var balance float64
 
